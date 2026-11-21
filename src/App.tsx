@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router'
+import { CartPage } from './features/cart/CartPage.tsx'
 import { CartProvider } from './features/cart/cartStore.tsx'
 import { ProductsPage } from './features/catalog/ProductsPage.tsx'
 import { ProductDetailPage } from './features/product/ProductDetailPage.tsx'
@@ -15,7 +16,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="products" element={<ProductsPage />} />
           <Route path="products/:id" element={<ProductDetailPage />} />
-          <Route path="cart" element={<TitledPage title="Cart" />} />
+          <Route path="cart" element={<CartPage />} />
           <Route path="checkout" element={<TitledPage title="Checkout" />} />
           <Route
             path="order-success"
