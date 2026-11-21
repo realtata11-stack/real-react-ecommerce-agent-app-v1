@@ -1,0 +1,6 @@
+dist
+package-lock.json
+.agents
+docs/brief/screenshots
+public
+*.md
