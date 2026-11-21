@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# .env holds only the public API address, so it is committed on purpose.
-!.env
+# Local env file. Copy .env.example to .env.
+.env

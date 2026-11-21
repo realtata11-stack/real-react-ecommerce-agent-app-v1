@@ -1,11 +1,28 @@
+import { Route, Routes } from 'react-router'
+import { HomePage } from './pages/HomePage.tsx'
+import { NotFoundPage } from './pages/NotFoundPage.tsx'
+import { TitledPage } from './pages/TitledPage.tsx'
+import { Layout } from './shared/layout/Layout.tsx'
+
 function App() {
   return (
-    <main className="mx-auto max-w-2xl p-8">
-      <h1 className="text-2xl font-bold">My Store</h1>
-      <p className="mt-2 text-gray-600">
-        The starter is ready. No features have been built yet.
-      </p>
-    </main>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="products" element={<TitledPage title="Products" />} />
+        <Route
+          path="products/:id"
+          element={<TitledPage title="Product Details" />}
+        />
+        <Route path="cart" element={<TitledPage title="Cart" />} />
+        <Route path="checkout" element={<TitledPage title="Checkout" />} />
+        <Route
+          path="order-success"
+          element={<TitledPage title="Order Placed" />}
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   )
 }
 

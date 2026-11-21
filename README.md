@@ -46,3 +46,11 @@ spec และ ticket ที่คุณสร้างจะอยู่ใน�
 ## ที่มาของ skill
 
 skill ใน `.agents/skills/` มาจาก [mattpocock/skills](https://github.com/mattpocock/skills) รุ่น v1.3.2 ไม่ได้แก้ไข ใช้ตามสัญญาอนุญาต MIT ดูรายละเอียดใน `.agents/NOTICE.md`
+
+## Deploy ขึ้น Vercel
+
+1. Push repo ขึ้น GitHub แล้ว Import project ใน Vercel (Framework: Vite)
+2. ตั้ง Environment Variable: `VITE_API_BASE_URL` (ตัวอย่าง: `https://dummyjson.com` ดู `.env.example`)
+3. Deploy: Vercel รัน `npm run build` และเสิร์ฟโฟลเดอร์ `dist`; `vercel.json` มี rewrite ให้ทุก URL เปิดตรงหรือรีเฟรชได้
+
+สำหรับรันในเครื่อง ให้คัดลอก `.env.example` เป็น `.env`

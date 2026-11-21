@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
     environment: 'jsdom',
+    env: { VITE_API_BASE_URL: 'https://dummyjson.com' },
     setupFiles: ['./src/setupTests.ts'],
   },
 })
