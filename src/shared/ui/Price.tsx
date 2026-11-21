@@ -1,6 +1,5 @@
 import {
   discountLabel,
-  dollarsToCents,
   formatMoney,
   originalPriceCents,
 } from '../pricing/pricing.ts'
@@ -9,24 +8,23 @@ import {
 const sizeClass = { card: 'text-xl', detail: 'text-3xl' }
 
 type PriceProps = {
-  /** Price in dollars from the API (already discounted). */
-  price: number
+  /** Discounted price in whole cents. */
+  priceCents: number
   discountPercentage: number
   size?: keyof typeof sizeClass
 }
 
 export function Price({
-  price,
+  priceCents,
   discountPercentage,
   size = 'card',
 }: PriceProps) {
-  const cents = dollarsToCents(price)
   return (
     <div>
-      <div className={sizeClass[size]}>{formatMoney(cents)}</div>
+      <div className={sizeClass[size]}>{formatMoney(priceCents)}</div>
       <div className="flex gap-2 text-sm">
         <s className="text-muted">
-          {formatMoney(originalPriceCents(cents, discountPercentage))}
+          {formatMoney(originalPriceCents(priceCents, discountPercentage))}
         </s>
         <span className="text-primary">
           {discountLabel(discountPercentage)}

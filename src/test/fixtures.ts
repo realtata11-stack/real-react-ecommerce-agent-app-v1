@@ -17,6 +17,38 @@ export const categoriesResponse = [
   },
 ]
 
+/** A DummyJSON-shaped product; override any field per test. */
+export function makeProduct(
+  id: number,
+  overrides: Record<string, unknown> = {},
+) {
+  return {
+    id,
+    title: `Product ${id}`,
+    description: 'A product.',
+    category: 'beauty',
+    price: 9.99,
+    discountPercentage: 10.48,
+    rating: 4.94,
+    stock: 5,
+    brand: 'Brand',
+    sku: `SKU-${id}`,
+    thumbnail: `https://cdn.dummyjson.com/products/images/${id}/thumbnail.webp`,
+    images: [],
+    reviews: [{}, {}, {}],
+    ...overrides,
+  }
+}
+
+/** A paged DummyJSON list response. */
+export function productList(
+  products: unknown[],
+  total = products.length,
+  skip = 0,
+) {
+  return { products, total, skip, limit: products.length }
+}
+
 export const productsResponse = {
   products: [
     {

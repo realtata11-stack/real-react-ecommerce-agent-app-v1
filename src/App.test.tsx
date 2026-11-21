@@ -15,7 +15,6 @@ test('shows the store name in the header', () => {
 })
 
 test.each([
-  ['/products', 'Products'],
   ['/products/1', 'Product Details'],
   ['/cart', 'Cart'],
   ['/checkout', 'Checkout'],
@@ -102,8 +101,9 @@ test('clicking header and footer links navigates', async () => {
   await userEvent.click(
     within(footer()).getByRole('link', { name: 'Products' }),
   )
+  // /products lands on the first category.
   expect(
-    screen.getByRole('heading', { level: 1, name: 'Products' }),
+    await screen.findByRole('heading', { level: 1, name: 'Beauty' }),
   ).toBeInTheDocument()
 
   await userEvent.click(

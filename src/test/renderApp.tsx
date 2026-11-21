@@ -5,7 +5,10 @@ import { afterEach, beforeEach, vi } from 'vitest'
 import App from '../App.tsx'
 import { categoriesResponse, productsResponse } from './fixtures.ts'
 
-type Routes = Record<string, unknown>
+/** A route answers with JSON data, a ready `Response`, or throws (network error). */
+type RouteAnswer = unknown
+type Route = RouteAnswer | ((url: URL) => RouteAnswer | Promise<RouteAnswer>)
+type Routes = Record<string, Route>
 
 const defaultRoutes: Routes = {
   '/products/categories': categoriesResponse,
@@ -16,9 +19,13 @@ const defaultRoutes: Routes = {
 export function stubFetch(routes: Routes = {}) {
   const table = { ...defaultRoutes, ...routes }
   const stub = vi.fn(async (input: RequestInfo | URL) => {
-    const { pathname } = new URL(String(input))
-    if (pathname in table) return Response.json(table[pathname])
-    return Response.json({ message: 'Not found' }, { status: 404 })
+    const url = new URL(String(input))
+    if (!(url.pathname in table)) {
+      return Response.json({ message: 'Not found' }, { status: 404 })
+    }
+    const route = table[url.pathname]
+    const answer = typeof route === 'function' ? await route(url) : route
+    return answer instanceof Response ? answer : Response.json(answer)
   })
   vi.stubGlobal('fetch', stub)
   return stub
