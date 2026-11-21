@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router'
+import { useCart } from '../../features/cart/cartStore.tsx'
 
 function CartIcon() {
   return (
@@ -15,6 +16,7 @@ function CartIcon() {
 }
 
 export function Header() {
+  const { itemCount } = useCart()
   return (
     <header>
       <div className="mx-auto grid max-w-content grid-cols-3 items-center px-4 py-6">
@@ -46,6 +48,14 @@ export function Header() {
           className="relative justify-self-end"
         >
           <CartIcon />
+          {itemCount > 0 && (
+            <span
+              data-testid="cart-badge"
+              className="absolute -top-2 -right-3 flex min-w-5 items-center justify-center rounded-full bg-danger px-1 text-xs text-white"
+            >
+              {itemCount}
+            </span>
+          )}
         </Link>
       </div>
     </header>

@@ -20,7 +20,7 @@ export function Price({
   size = 'card',
 }: PriceProps) {
   return (
-    <div>
+    <div className={size === 'detail' ? 'flex items-baseline gap-3' : ''}>
       <div className={sizeClass[size]}>{formatMoney(priceCents)}</div>
       <div className="flex gap-2 text-sm">
         <s className="text-muted">

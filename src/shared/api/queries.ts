@@ -1,5 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { listCategories, listProductsByCategory } from './storeApi.ts'
+import {
+  getProduct,
+  listCategories,
+  listProductsByCategory,
+} from './storeApi.ts'
 
 export function useCategories() {
   return useQuery({ queryKey: ['categories'], queryFn: listCategories })
@@ -14,4 +18,8 @@ export function useProductsByCategory(
     queryFn: () => listProductsByCategory(slug!, { limit, skip }),
     enabled: slug !== undefined,
   })
+}
+
+export function useProduct(id: string) {
+  return useQuery({ queryKey: ['product', id], queryFn: () => getProduct(id) })
 }

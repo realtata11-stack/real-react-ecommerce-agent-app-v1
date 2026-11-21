@@ -24,3 +24,24 @@ export type ProductPage = {
   /** Number of products in the whole category, across all pages. */
   total: number
 }
+
+export type Review = {
+  /** Rating out of 5. */
+  rating: number
+  comment: string
+  /** ISO date string. */
+  date: string
+  reviewerName: string
+}
+
+export type ProductDetail = Product & {
+  description: string
+  /** Gallery images; may be empty, in which case use the thumbnail. */
+  images: string[]
+  stock: number
+  sku: string
+  stockStatus: string
+  shippingInformation: string
+  warrantyInformation: string
+  reviews: Review[]
+}

@@ -35,6 +35,9 @@ export function makeProduct(
     sku: `SKU-${id}`,
     thumbnail: `https://cdn.dummyjson.com/products/images/${id}/thumbnail.webp`,
     images: [],
+    availabilityStatus: 'In Stock',
+    shippingInformation: 'Ships in 3-5 business days',
+    warrantyInformation: '1 week warranty',
     reviews: [{}, {}, {}],
     ...overrides,
   }

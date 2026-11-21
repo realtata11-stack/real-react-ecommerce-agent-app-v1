@@ -1,6 +1,12 @@
 import { dollarsToCents } from '../pricing/pricing.ts'
 import { apiBaseUrl } from './config.ts'
-import type { Category, Product, ProductPage } from './types.ts'
+import type {
+  Category,
+  Product,
+  ProductDetail,
+  ProductPage,
+  Review,
+} from './types.ts'
 
 /**
  * The only module that knows the DummyJSON wire format. Swapping the API
@@ -18,6 +24,24 @@ type RawProduct = {
   reviews?: unknown[]
   price: number
   discountPercentage: number
+}
+
+type RawReview = {
+  rating: number
+  comment: string
+  date: string
+  reviewerName: string
+}
+
+type RawProductDetail = Omit<RawProduct, 'reviews'> & {
+  description: string
+  images?: string[]
+  stock: number
+  sku: string
+  availabilityStatus: string
+  shippingInformation: string
+  warrantyInformation: string
+  reviews?: RawReview[]
 }
 
 type RawProductPage = { products: RawProduct[]; total: number }
@@ -54,4 +78,31 @@ export async function listProductsByCategory(
     `/products/category/${encodeURIComponent(slug)}?limit=${limit}&skip=${skip}`,
   )
   return { products: raw.products.map(toProduct), total: raw.total }
+}
+
+function toReview(raw: RawReview): Review {
+  return {
+    rating: raw.rating,
+    comment: raw.comment,
+    date: raw.date,
+    reviewerName: raw.reviewerName,
+  }
+}
+
+export async function getProduct(id: string): Promise<ProductDetail> {
+  const raw = await getJson<RawProductDetail>(
+    `/products/${encodeURIComponent(id)}`,
+  )
+  const reviews = (raw.reviews ?? []).map(toReview)
+  return {
+    ...toProduct({ ...raw, reviews }),
+    description: raw.description,
+    images: raw.images ?? [],
+    stock: raw.stock,
+    sku: raw.sku,
+    stockStatus: raw.availabilityStatus,
+    shippingInformation: raw.shippingInformation,
+    warrantyInformation: raw.warrantyInformation,
+    reviews,
+  }
 }
