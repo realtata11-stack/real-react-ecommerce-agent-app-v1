@@ -34,6 +34,18 @@ export type Review = {
   reviewerName: string
 }
 
+export type ShippingAddress = {
+  address: string
+  email: string
+  phone: string
+}
+
+/** What the customer orders. Delivery and payment choices are not sent. */
+export type Order = {
+  products: { id: number; quantity: number }[]
+  address: ShippingAddress
+}
+
 export type ProductDetail = Product & {
   description: string
   /** Gallery images; may be empty, in which case use the thumbnail. */

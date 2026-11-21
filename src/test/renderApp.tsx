@@ -18,7 +18,9 @@ const defaultRoutes: Routes = {
 /** Replaces `fetch` with a stub answering DummyJSON-shaped JSON by URL path. */
 export function stubFetch(routes: Routes = {}) {
   const table = { ...defaultRoutes, ...routes }
-  const stub = vi.fn(async (input: RequestInfo | URL) => {
+  // `init` is unused here but recorded in `stub.mock.calls` for tests to inspect.
+  const stub = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    void init
     const url = new URL(String(input))
     if (!(url.pathname in table)) {
       return Response.json({ message: 'Not found' }, { status: 404 })

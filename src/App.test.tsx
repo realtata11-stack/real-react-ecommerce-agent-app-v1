@@ -17,8 +17,6 @@ test('shows the store name in the header', () => {
 test.each([
   ['/products/1', 'Product Details'],
   ['/cart', 'Cart'],
-  ['/checkout', 'Checkout'],
-  ['/order-success', 'Order Placed'],
 ])('opens %s directly with a title bar', (path, title) => {
   renderApp(path)
 

@@ -2,6 +2,7 @@ import { dollarsToCents } from '../pricing/pricing.ts'
 import { apiBaseUrl } from './config.ts'
 import type {
   Category,
+  Order,
   Product,
   ProductDetail,
   ProductPage,
@@ -50,6 +51,19 @@ async function getJson<T>(path: string): Promise<T> {
   const response = await fetch(`${apiBaseUrl}${path}`)
   if (!response.ok) throw new Error(`Request failed with ${response.status}`)
   return (await response.json()) as T
+}
+
+/** DummyJSON has no accounts; every order is placed as this user. */
+const GUEST_USER_ID = 1
+
+/** Sends the order. DummyJSON does not store it but answers as if it did. */
+export async function placeOrder({ products, address }: Order): Promise<void> {
+  const response = await fetch(`${apiBaseUrl}/carts/add`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: GUEST_USER_ID, products, address }),
+  })
+  if (!response.ok) throw new Error(`Request failed with ${response.status}`)
 }
 
 function toProduct(raw: RawProduct): Product {

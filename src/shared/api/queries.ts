@@ -1,9 +1,14 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import {
   getProduct,
   listCategories,
   listProductsByCategory,
+  placeOrder,
 } from './storeApi.ts'
+
+export function usePlaceOrder() {
+  return useMutation({ mutationFn: placeOrder })
+}
 
 export function useCategories() {
   return useQuery({ queryKey: ['categories'], queryFn: listCategories })
